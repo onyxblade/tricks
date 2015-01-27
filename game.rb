@@ -17,13 +17,13 @@ end
 
 smash = Skill.new
 smash.description =<<EOF
-  target_hp - self_hp*2
+  target_hp -= self_str*2
 EOF
 
 heal = Skill.new
 heal.description =<<EOF
-  self_mp -10
-  self_hp +10
+  self_mp -=10
+  self_hp +=10
 EOF
 
 class Warrior < Role
@@ -39,4 +39,6 @@ m = Monster.new(hp:100, str:30)
 heal.apply(w)
 
 pp w
+
 smash.apply(w, m)
+pp m
