@@ -38,6 +38,16 @@ class Stream
     end
   end
 
+  def accumulate &p
+    Stream.new do |y|
+      n = 0
+      loop do
+        y << (0..n).collect{|n| self[n]}.reduce(&p)
+        n += 1
+      end
+    end
+  end
+
   def select &p
     Stream.new do |y|
       n = 0
@@ -69,6 +79,44 @@ integers = Stream.new do |y|
 end
 
 double = Stream.map(integers,integers.rest){|v1,v2| v1 + v2}
-double[10]
 p double.first 10
 p double.rest(3).select{|x| x>15}.first 5
+
+seq = Stream.new do |y|
+  n = 1
+  a = 1
+  loop do
+    y << a * (1.0 / n)
+    n = n + 2
+    a = -a
+  end
+end
+
+sum = seq.accumulate{|s,x| s + x}
+pi = sum.map{|x| x*4}
+
+p pi.first 10
+
+def eular_transform s
+  Stream.new do |y|
+    n = 1
+    loop do
+      s0, s1, s2 = s[n-1], s[n], s[n+1]
+      y << s2 - ((s2 - s1) ** 2) / (s0 + -2 * s1 + s2)
+      n += 1
+    end
+  end
+end
+
+def accelerate s
+  Stream.new do |y|
+    loop do
+      s = eular_transform s
+      y << s.first
+    end
+  end
+end
+
+p (eular_transform pi).first 10
+
+p (accelerate pi).first 10
