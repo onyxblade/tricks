@@ -1,3 +1,6 @@
+#可以用于单文件程序的宏，require的话，在eval之后没办法终止原代码的执行
+#也可以自制一个require，把源文件的code读进来处理完再eval，但是这样$0之类的就失效了
+
 class RubyMacro
   def self.init outer
     @@binding = outer
