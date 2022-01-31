@@ -6,21 +6,23 @@
 pthread_mutex_t mutex;
 
 void *thread1 () {
-	for (int i = 0; i < 10000; ++i) {
+//	for (int i = 0; i < 10000; ++i) {
 		pthread_mutex_lock(&mutex);
 		rb_eval_string("p 123");
 		pthread_mutex_unlock(&mutex);
-	}
+//	}
 }
 
 void *thread2 () {
-	for (int i = 0; i < 10000; ++i) {
+//	for (int i = 0; i < 10000; ++i) {
 		pthread_mutex_lock(&mutex);
 		rb_eval_string("p 456");
 		pthread_mutex_unlock(&mutex);
-	}
+//	}
 }
-// gcc ruby.c -I/home/cichol/.rbenv/versions/2.5.1/include/ruby-2.5.0/x86_64-linux -I/home/cichol/.rbenv/versions/2.5.1/include/ruby-2.5.0 -L/home/cichol/.rbenv/versions/2.5.1/lib -Wl,--compress-debug-sections=zlib -Wl,-rpath,/home/cichol/.rbenv/versions/2.5.1/lib -lruby -lpthread -lgmp -ldl -lcrypt -lm -o ruby
+//gcc ruby.c -I/Users/cichol/.rbenv/versions/2.7.1/include/ruby-2.7.0 -I/Users/cichol/.rbenv/versions/2.7.1/include/ruby-2.7.0/x86_64-darwin18 -lruby -lpthread -o ruby
+// ruby 3 requires clang 13
+///usr/local/opt/llvm/bin/clang ruby.c -I/Users/cichol/.rbenv/versions/3.0.1/include/ruby-3.0.0 -I/Users/cichol/.rbenv/versions/3.0.1/include/ruby-3.0.0/x86_64-darwin20/ -lruby -lpthread -o ruby
 int main () {
 	ruby_init();
 
