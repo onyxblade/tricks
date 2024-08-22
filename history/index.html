@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>History</title>
+</head>
+<body>
+  <p>Press "Back" or "Forward" to see the change</p>
+  <script>
+    window.history.pushState({action: 'back'}, '')
+    window.history.pushState({action: 'none'}, '')
+    window.history.pushState({action: 'forward'}, '')
+    window.history.go(-1)
+
+    function processAction(action) {
+      document.body.append(action)
+      document.body.appendChild(document.createElement('br'))
+    }
+
+    window.onpopstate = function (event) {
+      switch (event.state.action) {
+      case 'back':
+        window.history.go(1)
+        processAction(event.state.action)
+        break
+      case 'forward':
+        window.history.go(-1)
+        processAction(event.state.action)
+        break
+      }
+    }
+  </script>
+</body>
+</html>
